@@ -1,149 +1,78 @@
-package ejercicio1;
+package ejercicios.ejercicio1;
+import java.util.Scanner;
 
 public class Ejercicio1 {
     public static void main(String[] args) {
-  
-        Owner o1 = new Owner();
-        o1.setOwnerName("Diego");
-        o1.setRfc("12DH200J34GH");
-        o1.setPhoneNumber("442 569-1021");
+    Scanner sc = new Scanner(System.in);
 
-        Pet p1 = new Pet();
-        p1.setPetName("Rufina");
-        p1.setSpecies("Perro");
-        p1.setOwner(o1);
-        p1.setAge(2);
-        p1.setWeight(10.5);
+    System.out.println("--Sistema de gestión--");
 
-        Vet v1 = new Vet();
-        v1.setEmployeeName("Juan");
-        v1.setEmployeeID("001");
-        v1.setSpeciality("Medicina general");
-        v1.setExperienceYears(5);
+    System.out.print("Nombre del dueño: ");
+    String ownerName = sc.nextLine();
+    System.out.print("RFC: ");
+    String rfc = sc.nextLine();
+    System.out.print("Número de teléfono: ");
+    String phoneNumber = sc.nextLine();
+    Owner owner = new Owner(ownerName, rfc, phoneNumber);
 
-        Service s1 = new Service();
-        s1.setServiceName("Vacunación");
-        s1.setPrice(300);
-        s1.setDuration(30);
+    System.out.print("\nNombre de la mascota: ");
+    String petName = sc.nextLine();
+    System.out.print("Especie: ");
+    String species = sc.nextLine();
+    System.out.print("Edad: ");
+    int age = Integer.parseInt(sc.nextLine());
+    System.out.print("Peso: ");
+    double weight = Double.parseDouble(sc.nextLine());
+    Pet pet = new Pet(petName, species, owner, age, weight);
 
-        Appointment a1 = new Appointment();
-        a1.setDate("10/02/2026");
-        a1.setPet(p1);
-        a1.setVet(v1);
-        a1.setService(s1);
+    System.out.print("\nNombre del veterinario: ");
+    String vetName = sc.nextLine();
+    System.out.print("Número de empleado: ");
+    String employeeId = sc.nextLine();
+    System.out.print("Especialidad: ");
+    String speciality = sc.nextLine();
+    System.out.print("Años de experiencia: ");
+    int experienceYears = Integer.parseInt(sc.nextLine());
+    Vet vet = new Vet(vetName, employeeId, speciality, experienceYears);
 
-        System.out.println("--Mascota--");
-        System.out.println("Nombre: " + p1.getPetName());
-        System.out.println("Especie: " + p1.getSpecies());
-        System.out.println("Edad: " + p1.getAge() + " años");
-        System.out.println("Peso: " + p1.getWeight() + " kg");
-        System.out.println("Dueño: " + p1.getOwner().getOwnerName());
-        System.out.println();
+    System.out.print("\nNombre del servicio: ");
+    String serviceName = sc.nextLine();
+    System.out.print("Precio: ");
+    double price = Double.parseDouble(sc.nextLine());
+    System.out.print("Duración en minutos: ");
+    int duration  = Integer.parseInt(sc.nextLine());
+    Service service = new Service(serviceName, price, duration);
 
-        System.out.println("--Veterinario--");
-        System.out.println("Nombre: " + v1.getEmployeeName());
-        System.out.println("Especialidad: " + v1.getSpeciality());
-        System.out.println("Años de experiencia: " + v1.getExperienceYears() + " años");
-        System.out.println();
+    System.out.print("Fecha de la cita: ");
+    String date = sc.nextLine();
 
-        System.out.println("--Consulta--");
-        System.out.println("Fecha: " + a1.getDate());
-        System.out.println("Servicio realizado: " + a1.getService().getServiceName());
-        System.out.println("Precio total: $" + a1.getTotalPrice());
-        System.out.println();
+    Appointment appointment = new Appointment(date, pet, vet, service);
+
+    System.out.println("\n--Resumen de la cita--");
+    System.out.println("Mascota: " + pet.getPetName());
+    System.out.println("Dueño: " + owner.getOwnerName());
+    System.out.println("Veterinario: " + vet.getEmployeeName());
+    System.out.println("Servicio: " + service.getServiceName());
+    System.out.println("Precio: $" + appointment.getTotalPrice());
+
     }
 }
-    class Pet {
-        private String petName;
-        private String species;
-        private Owner owner;
-        private int age;
-        private double weight;
-
-        public Pet() {
-        }
-
-        public Pet(String petName, String species, Owner owner, int age, double weight) {
-            this.petName = petName;
-            this.species = species;
-            this.owner = owner;
-            this.age = age;
-            this.weight = weight;
-        }
-
-        public Pet(Pet other) {
-            this.petName = other.petName;
-            this.species = other.species;
-            this.owner = new Owner(other.owner);
-            this.age = other.age;
-            this.weight = other.weight;
-        }
-        public String getPetName() {
-            return petName;
-        }
-
-        public void setPetName(String petName) {
-            if (petName == null) {
-                throw new IllegalArgumentException("El nombre de la mascota no puede estar vacío");
-            }
-            this.petName = petName;
-        }
-
-        public String getSpecies() {
-            return species;
-        }
-
-        public void setSpecies(String species) {
-            if (species == null || species.trim().isEmpty()) {
-                throw new IllegalArgumentException("La especie no puede estar vacía");
-            }
-            this.species = species;
-        }
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public void setOwner(Owner owner) {
-            if (owner == null) {
-                throw new IllegalArgumentException("El nombre del dueño no puede estar vacío");
-            }
-            this.owner = owner;
-        }
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            if (age < 0) {
-                throw new IllegalArgumentException("La edad no puede ser menor a cero");
-            }
-            this.age = age;
-        }
-
-        public double getWeight() {
-            return weight;
-        }
-
-        public void setWeight(double weight) {
-            if (weight < 0) {
-                throw new IllegalArgumentException("El peso no puede ser menor a cero");
-            }
-            this.weight = weight;
-        }
-    }
-
     class Owner {
+
         private String ownerName;
         private String rfc;
         private String phoneNumber;
 
         public Owner() {
+            this.ownerName = "Sin nombre";
+            this.rfc = "Sin RFC";
+            this.phoneNumber = "Sin número de telefono";
         }
 
         public Owner(String ownerName, String rfc, String phoneNumber) {
-            this.ownerName = ownerName;
-            this.rfc = rfc;
-            this.phoneNumber = phoneNumber;
+            setOwnerName(ownerName);
+            setRfc(rfc);
+            setPhoneNumber(phoneNumber);
         }
 
         public Owner(Owner other) {
@@ -186,13 +115,106 @@ public class Ejercicio1 {
         } 
     }
 
+    class Pet {
+
+        private String petName;
+        private String species;
+        private Owner owner;
+        private int age;
+        private double weight;
+
+        public Pet() {
+            this.petName = "Sin nombre";
+            this.species = "Desonocida";
+            this.owner = new Owner();
+            this.age = 0;
+            this.weight = 0.0;
+        }
+
+        public Pet(String petName, String species, Owner owner, int age, double weight) {
+            setPetName(petName);
+            setSpecies(species);
+            setOwner(owner);
+            setAge(age);
+            setWeight(weight);
+        }
+
+        public Pet(Pet other) {
+            this.petName = other.petName;
+            this.species = other.species;
+            this.owner = new Owner(other.owner);
+            this.age = other.age;
+            this.weight = other.weight;
+        }
+
+        public String getPetName() {
+            return petName;
+        }
+
+        public void setPetName(String petName) {
+            if (petName == null) {
+                throw new IllegalArgumentException("El nombre de la mascota no puede estar vacío");
+            }
+            this.petName = petName;
+        }
+
+        public String getSpecies() {
+            return species;
+        }
+
+        public void setSpecies(String species) {
+            if (species == null || species.trim().isEmpty()) {
+                throw new IllegalArgumentException("La especie no puede estar vacía");
+            }
+            this.species = species;
+        }
+
+        public Owner getOwner() {
+            return owner;
+        }
+
+        public void setOwner(Owner owner) {
+            if (owner == null) {
+                throw new IllegalArgumentException("El nombre del dueño no puede estar vacío");
+            }
+            this.owner = owner;
+        }
+        
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            if (age < 0) {
+                throw new IllegalArgumentException("La edad no puede ser menor a cero");
+            }
+            this.age = age;
+        }
+
+        public double getWeight() {
+            return weight;
+        }
+
+        public void setWeight(double weight) {
+            if (weight < 0) {
+                throw new IllegalArgumentException("El peso no puede ser menor a cero");
+            }
+            this.weight = weight;
+        }
+    }
+
     class Vet {
+
         private String employeeName;
         private String employeeID;
         private String speciality;
         private int experienceYears;
 
         public Vet() {
+            this.employeeName = "Sin nombre";
+            this.employeeID = "Sin número de empleado";
+            this.speciality = "sin especialidad";
+            this.experienceYears = 0;
         }
 
         public Vet(String employeeName, String employeeID, String speciality, int experienceYears) {
@@ -255,17 +277,21 @@ public class Ejercicio1 {
     }
 
     class Service {
+
         private String serviceName;
         private double price;
         private int duration;
 
         public Service() {
+            this.serviceName = "Servicio básico";
+            this.price = 0.0;
+            this.duration = 0;
         }
 
         public Service(String serviceName, double price, int duration) {
-            this.serviceName = serviceName;
-            this.price = price;
-            this.duration = duration;
+            setServiceName(serviceName);
+            setPrice(price);
+            setDuration(duration);
         }
 
         public Service(Service other) {
@@ -290,7 +316,7 @@ public class Ejercicio1 {
         }
 
         public void setPrice(double price) {
-            if (price <= 0) {
+            if (price < 0) {
                 throw new IllegalArgumentException("El precio no puede ser menor a cero");
             }
             this.price = price;
@@ -309,21 +335,24 @@ public class Ejercicio1 {
     }
 
     class Appointment {
+
         private String date;
         private Pet pet;
         private Vet vet;
         private Service service;
-        private double totalPrice;
 
         public Appointment() {
+            this.date = "Sin fecha";
+            this.vet = new Vet();
+            this.pet = new Pet();
+            this.service = new Service();
         }
 
-        public Appointment(String date, Pet pet, Vet vet, Service service, double totalPrice) {
-            this.date = date;
-            this.pet = pet;
-            this.vet = vet;
-            this.service = service;
-            this.totalPrice = service.getPrice();
+        public Appointment(String date, Pet pet, Vet vet, Service service) {
+            setDate(date);
+            setPet(pet);
+            setVet(vet);
+            setService(service);
         }
 
         public Appointment(Appointment other) {
@@ -331,7 +360,6 @@ public class Ejercicio1 {
             this.pet = new Pet(other.pet);
             this.vet = new Vet(other.vet);
             this.service = new Service(other.service);
-            this.totalPrice = other.totalPrice;
         }
 
         public String getDate() {
@@ -370,21 +398,15 @@ public class Ejercicio1 {
         public Service getService() {
             return service;
         }
+
         public void setService(Service service) {
             if (service == null) {
                 throw new IllegalArgumentException("El servicio no puede estar vacío");
             }
             this.service = service;
-            this.totalPrice = service.getPrice();
-        }
-        public double getTotalPrice() {
-            return totalPrice;
         }
 
-        public void setTotalPrice(double totalPrice) {
-            if (totalPrice < 0) {
-                throw new IllegalArgumentException("El precio total no puede estar vacío");
-            }
-            this.totalPrice = totalPrice;
+        public double getTotalPrice() {
+            return service.getPrice();
         }
     }
